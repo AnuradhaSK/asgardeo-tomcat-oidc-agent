@@ -147,8 +147,8 @@ public class UserRegistrationServlet extends HttpServlet {
         String accessToken = generateAccessToken(CLIENT_ID, CLIENT_SECRET, Constants.INTERNAL_USER_MGT_CREATE);
         String email = jwtClaimsSet.getStringClaim(Constants.EMAIL);
         String password = generateRandomPassword(12); // TODO tenant wise password policy change will effect
-        String givenName = jwtClaimsSet.getStringClaim(Constants.GIVEN_NAME);
-        String familyName = jwtClaimsSet.getStringClaim(Constants.FAMILY_NAME);
+        String givenName = jwtClaimsSet.getStringClaim(Constants.GIVEN_NAME_OIDC_CLAIM);
+        String familyName = jwtClaimsSet.getStringClaim(Constants.FAMILY_NAME_OIDC_CLAIM);
         JSONObject userJsonObject = getUserJsonObject(email, password, givenName, familyName, fidpId);
         APIResponse apiResponse =
                 ClientHolder.getDefaultApiClient().makeHTTPPost(Constants.SCIM_USERS_API, userJsonObject, accessToken);

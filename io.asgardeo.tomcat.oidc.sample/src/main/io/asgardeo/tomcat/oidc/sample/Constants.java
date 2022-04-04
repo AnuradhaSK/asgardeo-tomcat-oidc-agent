@@ -20,6 +20,8 @@ public class Constants {
     public static final String GOOGLE = "Google";
     public static final String GIVEN_NAME = "givenName";
     public static final String FAMILY_NAME = "familyName";
+    public static final String GIVEN_NAME_OIDC_CLAIM = "given_name";
+    public static final String FAMILY_NAME_OIDC_CLAIM = "family_name";
     public static final String NAME = "name";
 
     public static final String IDENTITY_PROVIDER_API = "api/server/v1/identity-providers";
