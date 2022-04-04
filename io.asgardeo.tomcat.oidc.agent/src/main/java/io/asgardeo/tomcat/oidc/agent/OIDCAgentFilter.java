@@ -33,6 +33,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -127,6 +132,23 @@ public class OIDCAgentFilter implements Filter {
 
         if (!isActiveSessionPresent(request)) {
             try {
+                Map<String, String> additionalParams = new HashMap<>();
+                if (request.getQueryString() != null) {
+                    String[] queryParams = request.getQueryString().split("&");
+                    for (String param : queryParams) {
+                        String[] keyValuePair = param.split("=");
+                        if (keyValuePair.length != 2) {
+                            continue;
+                        }
+                        try {
+                            additionalParams.put(keyValuePair[0],
+                                    URLDecoder.decode(keyValuePair[1], StandardCharsets.UTF_8.name()));
+                        } catch (UnsupportedEncodingException e) {
+                            throw new SSOAgentException(e);
+                        }
+                    }
+                }
+                oidcAgentConfig.setAdditionalParamsForAuthorizeEndpoint(additionalParams);
                 oidcManager.sendForLogin(request, response);
             } catch (SSOAgentException e) {
                 handleException(request, response, e);
