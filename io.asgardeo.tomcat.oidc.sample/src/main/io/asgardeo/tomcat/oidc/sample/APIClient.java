@@ -26,9 +26,10 @@ import javax.net.ssl.X509TrustManager;
 public class APIClient {
 
     public static final MediaType JSON = MediaType.parse(Constants.APIClientConstants.JSON_MEDIA_TYPE);
-    public static final String BASE_URL = "https://api.asg.io/t/anuradha15/";
+    public static final String BASE_URL = "https://dev.api.asgardeo.io/t/anuradha/";
+    public static final String CHOREO_API_BASE_URL = "https://00d50a2e-a547-499b-9386-cdf5d319155e-dev.e1-us-east-azure.choreoapis.dev/xcrh/registration35gq/1.0.0/";
 
-    public APIResponse makeHTTPPost(String urlContext, Object body, String header) {
+    public APIResponse makeHTTPPostToChoreo(String urlContext, Object body, String apiKey) {
 
         APIResponse apiResponse = null;
         try {
@@ -38,8 +39,8 @@ public class APIClient {
             RequestBody requestBody = RequestBody.create(jsonString, JSON);
 
             Request request = new Request.Builder()
-                    .url(BASE_URL + urlContext)
-                    .header(Constants.APIClientConstants.AUTHORIZATION, "Bearer " + header)
+                    .url(CHOREO_API_BASE_URL + urlContext)
+                    .header(Constants.APIClientConstants.API_KEY, apiKey)
                     .header(Constants.APIClientConstants.ACCEPT, Constants.APIClientConstants.APPLICATION_JSON)
                     .header(Constants.APIClientConstants.CONTENT_TYPE, Constants.APIClientConstants.APPLICATION_JSON)
                     .method("POST", requestBody)
@@ -54,53 +55,53 @@ public class APIClient {
         return apiResponse;
     }
 
-    public APIResponse makeHTTPGet(String urlContext, String header) {
-
-        try {
-            OkHttpClient okHttpClient = getUnsafeOkHttpClient();
-            APIResponse apiResponse;
-            Request request = new Request.Builder().url(BASE_URL + urlContext)
-                    .header(Constants.APIClientConstants.AUTHORIZATION, "Bearer " + header)
-                    .header(Constants.APIClientConstants.ACCEPT, Constants.APIClientConstants.APPLICATION_JSON)
-                    .build();
-            try (Response response = okHttpClient.newCall(request).execute()) {
-                apiResponse = buildApiResponse(response);
-                return apiResponse;
-            }
-        } catch (IOException e) {
-            // TODO
-        }
-        return null;
-    }
-
-    public APIResponse makeHTTPPostToken(String clientKey, String clientSecret, String scope) {
-
-        APIResponse apiResponse = null;
-        try {
-            OkHttpClient okHttpClient = getUnsafeOkHttpClient();
-
-            RequestBody requestBody = new FormBody.Builder()
-                    .add(Constants.APIClientConstants.GRANT_TYPE, Constants.APIClientConstants.CLIENT_CREDENTIAL)
-                    .add(Constants.APIClientConstants.SCOPE, scope)
-                    .build();
-
-            Request request = new Request.Builder()
-                    .url(BASE_URL + Constants.OAUTH2_TOKEN_API)
-                    .header(Constants.APIClientConstants.CONTENT_TYPE,
-                            Constants.APIClientConstants.APPLICATION_FORM_URL_ENCODED)
-                    .header(Constants.APIClientConstants.AUTHORIZATION,
-                            "Basic " + Base64.getEncoder().encodeToString((clientKey + ":" + clientSecret).getBytes()))
-                    .post(requestBody)
-                    .build();
-
-            try (Response response = okHttpClient.newCall(request).execute()) {
-                apiResponse = buildApiResponse(response);
-            }
-        } catch (IOException e) {
-            // TODO
-        }
-        return apiResponse;
-    }
+//    public APIResponse makeHTTPGet(String urlContext, String header) {
+//
+//        try {
+//            OkHttpClient okHttpClient = getUnsafeOkHttpClient();
+//            APIResponse apiResponse;
+//            Request request = new Request.Builder().url(BASE_URL + urlContext)
+//                    .header(Constants.APIClientConstants.AUTHORIZATION, "Bearer " + header)
+//                    .header(Constants.APIClientConstants.ACCEPT, Constants.APIClientConstants.APPLICATION_JSON)
+//                    .build();
+//            try (Response response = okHttpClient.newCall(request).execute()) {
+//                apiResponse = buildApiResponse(response);
+//                return apiResponse;
+//            }
+//        } catch (IOException e) {
+//            // TODO
+//        }
+//        return null;
+//    }
+//
+//    public APIResponse makeHTTPPostToken(String clientKey, String clientSecret, String scope) {
+//
+//        APIResponse apiResponse = null;
+//        try {
+//            OkHttpClient okHttpClient = getUnsafeOkHttpClient();
+//
+//            RequestBody requestBody = new FormBody.Builder()
+//                    .add(Constants.APIClientConstants.GRANT_TYPE, Constants.APIClientConstants.CLIENT_CREDENTIAL)
+//                    .add(Constants.APIClientConstants.SCOPE, scope)
+//                    .build();
+//
+//            Request request = new Request.Builder()
+//                    .url(BASE_URL + Constants.OAUTH2_TOKEN_API)
+//                    .header(Constants.APIClientConstants.CONTENT_TYPE,
+//                            Constants.APIClientConstants.APPLICATION_FORM_URL_ENCODED)
+//                    .header(Constants.APIClientConstants.AUTHORIZATION,
+//                            "Basic " + Base64.getEncoder().encodeToString((clientKey + ":" + clientSecret).getBytes()))
+//                    .post(requestBody)
+//                    .build();
+//
+//            try (Response response = okHttpClient.newCall(request).execute()) {
+//                apiResponse = buildApiResponse(response);
+//            }
+//        } catch (IOException e) {
+//            // TODO
+//        }
+//        return apiResponse;
+//    }
 
     private OkHttpClient getUnsafeOkHttpClient() {
 

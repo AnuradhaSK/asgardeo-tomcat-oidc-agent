@@ -30,25 +30,25 @@ public class Utils {
         }
         throw new SSOAgentServerException("Session context null.");
     }
-
-    public static String generateAccessToken(String clientId, String clientSecret, String scope)
-            throws RegistrationServerException {
-
-        try {
-            APIResponse apiResponse =
-                    ClientHolder.getDefaultApiClient().makeHTTPPostToken(clientId, clientSecret, scope);
-            int statusCode = apiResponse.getStatusCode();
-            if (statusCode == 200) {
-                JSONParser parser = new JSONParser();
-                JSONObject tokenResponse = (JSONObject) parser.parse(apiResponse.getBody());
-                return (String) tokenResponse.get(Constants.ACCESS_TOKEN);
-            } else {
-                throw new RegistrationServerException("Error while obtaining access token");
-            }
-        } catch (ParseException e) {
-            throw new RegistrationServerException("Parsing error");
-        }
-    }
+//
+//    public static String generateAccessToken(String clientId, String clientSecret, String scope)
+//            throws RegistrationServerException {
+//
+//        try {
+//            APIResponse apiResponse =
+//                    ClientHolder.getDefaultApiClient().makeHTTPPostToken(clientId, clientSecret, scope);
+//            int statusCode = apiResponse.getStatusCode();
+//            if (statusCode == 200) {
+//                JSONParser parser = new JSONParser();
+//                JSONObject tokenResponse = (JSONObject) parser.parse(apiResponse.getBody());
+//                return (String) tokenResponse.get(Constants.ACCESS_TOKEN);
+//            } else {
+//                throw new RegistrationServerException("Error while obtaining access token");
+//            }
+//        } catch (ParseException e) {
+//            throw new RegistrationServerException("Parsing error");
+//        }
+//    }
 
     /**
      * Generate a random password.

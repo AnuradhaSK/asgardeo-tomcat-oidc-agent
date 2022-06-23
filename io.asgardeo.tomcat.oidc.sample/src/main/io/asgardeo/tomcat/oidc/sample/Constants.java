@@ -47,6 +47,7 @@ public class Constants {
         public static final String APPLICATION_JSON = "application/json";
         public static final String APPLICATION_FORM_URL_ENCODED = "application/x-www-form-urlencoded";
         public static final String AUTHORIZATION = "Authorization";
+        public static final String API_KEY = "API-Key";
         public static final String GRANT_TYPE = "grant_type";
         public static final String CLIENT_CREDENTIAL = "client_credentials";
         public static final String CONTENT_TYPE = "Content-Type";
